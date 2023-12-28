@@ -4,16 +4,16 @@ from sqlmodel import Session
 
 from .. import database,  utils, oauth2
  
-from ..schemas.user import UsersCreate
+from ..schemas.user import Users,UsersBase
  
 router = APIRouter(tags=['Authentication'])
 
 
-@router.post('/login', )
+@router.post('/login', response_model=UsersBase  )
 def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
 
-    user = db.query(UsersCreate).filter(
-        UsersCreate.email == user_credentials.username).first()
+    user = db.query(Users).filter(
+        Users.email == user_credentials.username).first()
 
     if not user:
         raise HTTPException(
