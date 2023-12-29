@@ -12,8 +12,6 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int
 
     class Config:
-        env_file = "/Users/kumar/Desktop/open_study_india_backend/app/.env"
-
-
+        env_file = ".env"
 
 settings = Settings()
