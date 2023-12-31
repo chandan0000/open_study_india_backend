@@ -1,7 +1,8 @@
+from typing import List
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
-from sqlalchemy.orm import Session
-from ..schemas import user 
-from ..schemas.user import UsersBase,Users
+from sqlmodel import Session
+from ..models import  user_model
+from ..schemas.user import Users
 
 from .. import utils, oauth2
 from ..database import get_db
@@ -16,8 +17,9 @@ router = APIRouter(
 # /users
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED,response_model=user.UsersRead)
-async def create_user(user: Users, db: Session = Depends(get_db)):
+@router.post("/", status_code=status.HTTP_201_CREATED,response_model=user_model.UsersRead)
+async def create_user(userModel: user_model.UsersModel, db: Session = Depends(get_db)):
+    user=Users(**userModel.model_dump())
     # Check if email already exists
     existing_user = db.query(Users).filter(Users.email == user.email).first()
     if existing_user:
@@ -35,7 +37,15 @@ async def create_user(user: Users, db: Session = Depends(get_db)):
     return new_user
 
 
-@router.get('/{id}', response_model=user.UsersRead)
+# list of user
+@router.get('/list', response_model=List[user_model.UsersRead])
+async def get_user( db: Session = Depends(get_db), current_user = Depends(oauth2.get_current_user) ):
+    # user = db.query(Users).all()
+    user = db.query(Users).filter(Users.id == current_user.id).all()
+
+    return user
+
+@router.get('/{id}', response_model=user_model.UsersRead)
 async def get_user(id: int, db: Session = Depends(get_db),):
     user = db.query(Users).filter(Users.id == id).first()
     if not user:

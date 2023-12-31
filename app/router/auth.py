@@ -3,13 +3,14 @@ from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlmodel import Session
 
 from .. import database,  utils, oauth2
- 
-from ..schemas.user import Users,UsersBase
- 
+
+from ..schemas.user import Users
+from ..models import user_model
+
 router = APIRouter(tags=['Authentication'])
 
 
-@router.post('/login', response_model=UsersBase  )
+@router.post('/login', response_model= user_model.Token )
 def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
 
     user = db.query(Users).filter(

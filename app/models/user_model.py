@@ -1,32 +1,27 @@
 from typing import Optional, List
-from sqlmodel import Field, SQLModel, Column, String, Relationship
-from pydantic import BaseModel, EmailStr
+
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 
-# class UsersBase(SQLModel):
-#     id: Optional[int] = Field(default=None, primary_key=True)
-#     full_name: str = Field(index=True)
-#     profile_pic: Optional[str] = None
-#     email: EmailStr = Field(index=True)
-#     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+class UsersBase(BaseModel):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    full_name: str = Field(index=True)
+    profile_pic: Optional[str] = None
+    email: EmailStr = Field(index=True)
+    created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
-# class UsersRead(UsersBase):
-#     id: int
+class UsersRead(UsersBase):
+    id: int
+    # class Config:
+    #     orm_mode = True
 
-# class Users(UsersBase, table=True):
-#     password: str = Field(sa_column=Column(String))
-#     messages: List["Message"] = Relationship(back_populates="user")
+class UsersModel(UsersBase,):
+    password: str 
 
-# class Message(SQLModel, table=True):
-#     id: Optional[int] = Field(default=None, primary_key=True)
-#     content: str
-#     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
-#     user_id: int = Field(foreign_key="users.id")
-#     user: Optional[Users] = Relationship(back_populates="messages")
 
-# class UserLogin(SQLModel):
-#     email: str
-#     password: str
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+class Token(BaseModel):
+    access_token: str
+    token_type: str
