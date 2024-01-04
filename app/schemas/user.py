@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 from sqlmodel import Field, SQLModel, Column, String, UniqueConstraint
 from pydantic import BaseModel
 import pydantic as pd
