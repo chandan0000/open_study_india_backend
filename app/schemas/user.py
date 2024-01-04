@@ -22,7 +22,6 @@ class Users(UsersBase, table=True):
 
 
     password: str = Field(sa_column=Column(String))
-    # messages: List["Message"] = Relationship(back_populates="user")
 
  
 

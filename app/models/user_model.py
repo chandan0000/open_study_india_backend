@@ -12,8 +12,8 @@ class UsersBase(BaseModel):
 
 class UsersRead(UsersBase):
     id: int
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     orm_mode = True
 
 class UsersModel(UsersBase,):
     password: str 
