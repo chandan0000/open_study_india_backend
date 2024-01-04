@@ -9,9 +9,7 @@ class UsersBase(SQLModel):
     full_name: str = Field(index=True)
     profile_pic: Optional[str] = None
     email: str = Field(index=True,unique=True )
-
-class UsersRead(UsersBase):
-    id:int
+    created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
 
 
@@ -22,7 +20,7 @@ class Users(UsersBase, table=True):
         UniqueConstraint( "id","email", name="your_unique_constraint_name"),
     )
 
-    created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+
     password: str = Field(sa_column=Column(String))
     # messages: List["Message"] = Relationship(back_populates="user")
 

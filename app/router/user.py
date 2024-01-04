@@ -2,7 +2,7 @@ from typing import List
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlmodel import Session, select
 from ..models import  user_model
-from ..schemas.user import Users ,UsersRead
+from ..schemas.user import Users 
 
 from .. import utils, oauth2
 from ..database import get_db
