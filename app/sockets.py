@@ -13,7 +13,8 @@ sio_app = socketio.ASGIApp(
     # socketio_path='socket.io'
 )
 
-
+# sio_server = socketio.Server()
+# sio_app = socketio.WSGIApp(sio_server, )
 @sio_server.event
 async def connect(sid, environ, auth):
     print(f'{sid}: connected')
